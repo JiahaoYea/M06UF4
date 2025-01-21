@@ -87,6 +87,16 @@ function ball_reset()
 	ball.y = ball_y_init;
 }
 
+function send_scores(){
+	let points = {
+		
+		s1: player1_score,
+		s2: player2_score
+	
+	};
+	ws.send (JSON.stringify(points));
+
+}
 function update ()
 {
 	if (player_num == 0)
@@ -106,11 +116,13 @@ function update ()
 	if (ball.x < 0){
 		player2_score += 1;
 		player2_score_text.setText(player2_score);
+		send_scores()
 		ball_reset()
 	}
 	if (ball.x > ball_wall_2){
 		player1_score += 1;
 		player1_score_text.setText(player1_score);
+		send_scores()
 		ball_reset()
 	}
 
@@ -141,14 +153,7 @@ function update ()
 		player_pos.y = player2.y;
 	
 	ws.send(JSON.stringify(player_pos));
-	let points = {
-		
-		s1: player1_score,
-		s2: player2_score
-	
-	};
-	ws.send (JSON.stringify(points));
-}
+	}
 
 	</script>
 </head>
